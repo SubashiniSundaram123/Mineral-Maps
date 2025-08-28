@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_9f4528a7df08faab57165a5fb7dd3941 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+</head>
+<body>
+    
+    
+            <div style="position: fixed; 
+                        top: 10px; right: 10px; width: 280px; height: 180px; 
+                        background-color: white; border:2px solid grey; z-index:9999; 
+                        font-size:13px; padding: 10px">
+            <b>HIGH CONFIDENCE Copper Grade Estimation</b><br>
+            <i class="fa fa-circle" style="color:#FF1493"></i> High Grade (≥2.0% Cu)<br>
+            <i class="fa fa-circle" style="color:#00FF7F"></i> Medium Grade (1.0-2.0% Cu)<br>
+            <i class="fa fa-circle" style="color:#00BFFF"></i> Low Grade (0.5-1.0% Cu)<br>
+            <i class="fa fa-circle" style="color:#FFD700"></i> Marginal Grade (<0.5% Cu)<br>
+            <br><b>Total Points:</b> 9<br>
+            <b>Confidence Range:</b> 85-100%<br>
+            <b>Mining Depth:</b> 60m (assumed)
+            </div>
+            
+    
+            <div class="folium-map" id="map_9f4528a7df08faab57165a5fb7dd3941" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_9f4528a7df08faab57165a5fb7dd3941 = L.map(
+                "map_9f4528a7df08faab57165a5fb7dd3941",
+                {
+                    center: [10.025754157909615, -84.66112522134836],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 13,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_8491c6a676c40143ba946f10800e9382 = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+            var tile_layer_6fc45623b99ad2f6c9882d75d32f58e8 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {"attribution": "Esri", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+            var polygon_43a76d856854b8fdd80e2f37c8896895 = L.polygon(
+                [[10.0068154028448, -84.68241055998375], [10.00695960377244, -84.68231855003661], [10.0071043044733, -84.68222621625586], [10.00724887903148, -84.68208882830649], [10.0072983009169, -84.68192569196653], [10.00730103140901, -84.68170629173025], [10.00735161281704, -84.6814549831146], [10.00740335850106, -84.68111544972236], [10.00745242145345, -84.68099536854902], [10.00750154349499, -84.68087514826624], [10.00755182892173, -84.68066670284138], [10.00755036607455, -84.68031029504337], [10.00754985283943, -84.68026552191725], [10.00754099293987, -84.67981533703033], [10.00758262382482, -84.67951152116967], [10.00772138279195, -84.6792303532819], [10.0079581785378, -84.67897097535284], [10.00824832616413, -84.67854427972335], [10.00846502752479, -84.67819683003992], [10.00846501366837, -84.67801728323957], [10.00846497250073, -84.67756841180457], [10.00846495232712, -84.67734397506644], [10.00846340467943, -84.67693914159067], [10.0082031337396, -84.67634354188169], [10.00794236546332, -84.67575065596573], [10.00789184259717, -84.67574025539592], [10.00789585387669, -84.67551959125892], [10.0078998611075, -84.67529886669074], [10.00785062463333, -84.67493308023883], [10.00784851915282, -84.67484292892384], [10.00769674551999, -84.67459085791], [10.00763896371245, -84.67431088397956], [10.00763121564557, -84.67412938072667], [10.00757999621129, -84.67389771304867], [10.00748051573571, -84.67365799320766], [10.00728312239483, -84.67322490815135], [10.00718185495193, -84.6728532554002], [10.00696916375257, -84.67232831110016], [10.00696290262695, -84.67179735267912], [10.00696042630067, -84.67153216520016], [10.00705788571591, -84.67132668410505], [10.00715604131257, -84.67120913030614], [10.00745218016319, -84.6708991304807], [10.00760153546499, -84.67083217574358], [10.00775048251021, -84.67058685651598], [10.0080004250781, -84.67026532252743], [10.00820165955717, -84.67011389067508], [10.00845113200184, -84.6699225458503], [10.0086523487776, -84.66972384669789], [10.00896067016564, -84.66949317733555], [10.00916750175438, -84.6693384316686], [10.00958316593567, -84.6690716990774], [10.01015971285734, -84.66859133428775], [10.01068679793649, -84.66814363995547], [10.01121297462337, -84.6677348350472], [10.01190280372899, -84.66724181300785], [10.01233477461041, -84.66690615765597], [10.01254800710089, -84.66678320493455], [10.01277193581865, -84.66661459287688], [10.01305356430844, -84.66649716509737], [10.01322448333221, -84.66641709677769], [10.01351707026469, -84.66625245765682], [10.01385978862634, -84.6661848996764], [10.01423373810308, -84.66621168541889], [10.01445342065548, -84.6661319593333], [10.01467245256187, -84.6660515762062], [10.01499282754812, -84.66592858101654], [10.01527172555714, -84.66570624906768], [10.01532573725958, -84.66527925701112], [10.01534979150914, -84.66508910201223], [10.01538378962056, -84.66465744372522], [10.01537159627093, -84.66421890732855], [10.01541867422149, -84.66373518840601], [10.01553062605125, -84.66340027198342], [10.01583735336545, -84.6629277169077], [10.01614353507263, -84.66240264044261], [10.01669979865758, -84.66119211592687], [10.01676204235014, -84.66099643500824], [10.01705042957073, -84.65981567495345], [10.01716759838007, -84.6596680745097], [10.01746173346795, -84.65877632745786], [10.0175247025299, -84.6586270936791], [10.01752618380833, -84.65827938630885], [10.0175258325598, -84.65793167543337], [10.01764914044984, -84.65748249352184], [10.01776388076403, -84.6565844456689], [10.01776025929299, -84.65623615254827], [10.01775708447728, -84.65593765528375], [10.01775159438039, -84.65558963508975], [10.01774845779658, -84.65539081011686], [10.01755444494876, -84.65480299201779], [10.01748982353697, -84.65450838702725], [10.01748828430518, -84.65431005671743], [10.01748482025239, -84.65386386779444], [10.01747971005466, -84.65341798906091], [10.01746912357411, -84.65262582712823], [10.01733855137683, -84.65194222750198], [10.0173293196025, -84.65075545859897], [10.0173283340314, -84.65055759744155], [10.01738325405408, -84.64976065300411], [10.01755527484926, -84.64890138546788], [10.0178464839443, -84.64792639173673], [10.01802456439766, -84.64745762961113], [10.01820951751403, -84.64688541790086], [10.01820773713189, -84.64623657944404], [10.01820510428919, -84.64578786529135], [10.01820305848773, -84.6454389018746], [10.01820071831711, -84.64504013157685], [10.01788384744159, -84.64454130673654], [10.01781584840874, -84.64425472709252], [10.01761331061215, -84.64384396650834], [10.01760620314149, -84.64354902955887], [10.01736199341124, -84.64334212917348], [10.01711053809461, -84.64284367463323], [10.01678437107949, -84.6422672257856], [10.0165580103595, -84.64197641736942], [10.01648402799056, -84.64174886554594], [10.01619881403183, -84.64142397657243], [10.01609033792738, -84.64114991696762], [10.01604339426514, -84.64096108411401], [10.01584767085351, -84.64071312076938], [10.01558565809289, -84.64038551297278], [10.01533068149043, -84.64000913724433], [10.01532824824668, -84.63972082992785], [10.01532434329104, -84.6393849645831], [10.01532099177642, -84.63909713007808], [10.01531876340477, -84.6389052733276], [10.01531578954943, -84.63866555804505], [10.01544402704024, -84.63843999961577], [10.01557080998857, -84.6382631169524], [10.01583145422148, -84.63805012048351], [10.01616181162512, -84.63786615335977], [10.01648687438662, -84.63773398487146], [10.01702631292569, -84.63741303738006], [10.01738593298476, -84.63718239353558], [10.01774644270872, -84.63695098930162], [10.01806967166271, -84.63688877141011], [10.01841367455741, -84.63681600032818], [10.01867921957296, -84.63674859349379], [10.01914780831097, -84.63662964235522], [10.01988813721173, -84.63644339559207], [10.02053932086168, -84.63644165618645], [10.02114252212812, -84.63639921905303], [10.02161588363357, -84.63628602488869], [10.02201121560619, -84.63629904123916], [10.02232048397434, -84.63639066950779], [10.02257120311742, -84.63639031302533], [10.02281674523783, -84.63644534243338], [10.02317427821381, -84.63663939179929], [10.02341277826192, -84.63680492605287], [10.0241474065147, -84.63698210041295], [10.02491061273762, -84.63722302860647], [10.02584289048346, -84.63775042946597], [10.02685438973484, -84.63815098428906], [10.02807922068396, -84.6386205177383], [10.02881456561427, -84.63903091580778], [10.02927509820279, -84.63949543829007], [10.02935458503146, -84.63959085286209], [10.02974671839123, -84.63962831051309], [10.03077648234938, -84.63982944472362], [10.03110041243049, -84.64005121165987], [10.03174648080463, -84.64021844873282], [10.03240524687541, -84.64055712539721], [10.03306704516105, -84.64084411922664], [10.03341599820303, -84.64095558652919], [10.03376339798231, -84.64118430023467], [10.03395077144709, -84.64126633541193], [10.03439691123582, -84.6414805606468], [10.03457644157524, -84.64156675890464], [10.035027943803, -84.64178355996565], [10.03562000309446, -84.6420331135911], [10.03565996112473, -84.64249180827716], [10.03569727396295, -84.64295190060048], [10.03572689714345, -84.64335574705554], [10.03570680650641, -84.64388003141737], [10.03574117952082, -84.64410680171208], [10.03551768652413, -84.64442634829302], [10.03534868611769, -84.64450683572328], [10.03572909929585, -84.64491463838267], [10.03605905491336, -84.64510165144486], [10.03643341659579, -84.64539940151651], [10.03745269281564, -84.64585259865488], [10.03855684092216, -84.6468059269957], [10.03901374330482, -84.64774806545427], [10.03918785744691, -84.64822685849633], [10.03952458049937, -84.64875455482219], [10.03980919489195, -84.64922490472618], [10.04025168726893, -84.64980907403725], [10.04096694554309, -84.65056231545935], [10.04155530911641, -84.65139109344226], [10.04235952833273, -84.65276671986213], [10.04265284103028, -84.65343907802226], [10.04272941544004, -84.65356141070185], [10.04298531042166, -84.65436915744182], [10.04324887065087, -84.65561996934592], [10.04357346793615, -84.65693183474932], [10.0436882256228, -84.65799968806093], [10.04369962898056, -84.65825101135069], [10.04368944750936, -84.65900555417528], [10.04373947997398, -84.65957170819975], [10.043865907496, -84.66014002623403], [10.04388230972247, -84.66020333379369], [10.04404816247923, -84.66102887937654], [10.04374937210915, -84.66134098915842], [10.04379719687508, -84.66184982694791], [10.043855785883, -84.6624216901502], [10.0437416451774, -84.66292639083588], [10.04350993757605, -84.66342594156369], [10.04343417933092, -84.66392885624113], [10.04319525221903, -84.66461070947075], [10.04298732867395, -84.6651665143615], [10.04290396608825, -84.66541420193782], [10.04270450847528, -84.66596801315227], [10.0430530088049, -84.66686663146793], [10.04324219720048, -84.66719338813189], [10.04358201516668, -84.6680341448285], [10.04415467149262, -84.66988647672322], [10.04449411767529, -84.6714183395817], [10.0446191926412, -84.6716868102972], [10.04493267678342, -84.6724196372797], [10.04485499890017, -84.67284905653865], [10.04476177290261, -84.67352778780011], [10.04468101909649, -84.67409044756411], [10.04465844665169, -84.67453910190552], [10.044504530749, -84.67484092163953], [10.04454821208236, -84.6749778606522], [10.04461339704611, -84.67557494752229], [10.04446484119682, -84.67587753653979], [10.04438353638733, -84.67638679619034], [10.04388034442662, -84.67694619780517], [10.04366973389957, -84.67722883327842], [10.04357881543513, -84.6774051193977], [10.04354574383182, -84.67784929111967], [10.04353018842969, -84.67836170934571], [10.04320366707243, -84.67921191532453], [10.04240118372614, -84.68024840047961], [10.04125413844039, -84.68140914978326], [10.03859691390228, -84.68257811294895], [10.03570080834327, -84.68416899909727], [10.03500857614961, -84.68466992219699], [10.03453747114353, -84.68478329716561], [10.03444637156242, -84.68481858127382], [10.0334675268224, -84.6848461824071], [10.03290670508104, -84.68475663507849], [10.03227536503912, -84.68483892247689], [10.03180815740675, -84.68490078835062], [10.03099436336774, -84.68498193582418], [10.03068490635591, -84.68502030497692], [10.03054872799955, -84.68504792581686], [10.02996836782584, -84.68519451107903], [10.02947668973905, -84.68536160219632], [10.02893477644234, -84.68549968247297], [10.02830961360612, -84.6854816794155], [10.02796477994799, -84.68554580720624], [10.02735953234755, -84.68563927920061], [10.02686033696344, -84.6857637122], [10.02621821969595, -84.68584682636197], [10.02582306670427, -84.68589247726034], [10.02546393726103, -84.68590292089979], [10.02499451338122, -84.68594418794076], [10.02469573324065, -84.68596441780802], [10.02415686155303, -84.68580513013644], [10.02355083067906, -84.68567823290591], [10.02308978572113, -84.68553883473523], [10.02254213745807, -84.68549196096522], [10.02202885967681, -84.6853602378865], [10.0213222354546, -84.68529784444614], [10.02044999419038, -84.68534602341731], [10.01953503840981, -84.68533043145855], [10.01877836023328, -84.68534011104197], [10.01814492459427, -84.68532801522056], [10.01689938436425, -84.6850867739704], [10.01584024022771, -84.68481346783076], [10.0148387030195, -84.68454739508581], [10.01348831778149, -84.68423855926619], [10.01241141560105, -84.68405952722064], [10.01135768896706, -84.68390742802305], [10.01046078600501, -84.68374196991347], [10.01033482359343, -84.68371939816353], [10.00987493572127, -84.68363698103697], [10.00894683388671, -84.68343671287094], [10.00867662984608, -84.68337416614702], [10.00832426259262, -84.68325105787409], [10.00688827621014, -84.68277191820418], [10.00657563903581, -84.68260669569442], [10.0068154028448, -84.68241055998375]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_483ad54290b13429958dc11675b6860f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_36e7cc9f6038f9fa7388b9cbf5daae52 = $(`<div id="html_36e7cc9f6038f9fa7388b9cbf5daae52" style="width: 100.0%; height: 100.0%;">Mine Boundary</div>`)[0];
+                popup_483ad54290b13429958dc11675b6860f.setContent(html_36e7cc9f6038f9fa7388b9cbf5daae52);
+            
+        
+
+        polygon_43a76d856854b8fdd80e2f37c8896895.bindPopup(popup_483ad54290b13429958dc11675b6860f)
+        ;
+
+        
+    
+    
+            var circle_marker_1a16a4f9280d5eb3e277913c54ccbecf = L.circleMarker(
+                [10.025234686082095, -84.64049789710583],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF7F", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_84f710caa5bc739188a898edb0e2a333 = L.popup({"maxWidth": 400});
+
+        
+            
+                var html_811907bc7c3f99c905494c0fdaf37d2c = $(`<div id="html_811907bc7c3f99c905494c0fdaf37d2c" style="width: 100.0%; height: 100.0%;">                 <b>HIGH CONFIDENCE Copper Quantity Estimate</b><br>                 <b>Confidence:</b> 94.3%<br>                 <b>Confidence Level:</b> Very High<br>                 <b>Estimated Grade:</b> 1.96% Cu<br>                 <b>Grade Category:</b> Medium Grade<br>                 <b>Resource Category:</b> Medium-Grade Reserve<br>                 <b>Estimated Tonnage:</b> 145,800 tonnes<br>                 <b>Copper Content:</b> 2862.17 tonnes<br>                 <b>Copper Content:</b> 2,862,167 kg<br>                 <b>Copper Content:</b> 6,309,990 lbs<br>                 <b>Pixel Area:</b> 0.090 hectares<br>                 <b>Mining Depth:</b> 60 m<br>                 <b>Lat:</b> 10.025235<br>                 <b>Lon:</b> -84.640498                 </div>`)[0];
+                popup_84f710caa5bc739188a898edb0e2a333.setContent(html_811907bc7c3f99c905494c0fdaf37d2c);
+            
+        
+
+        circle_marker_1a16a4f9280d5eb3e277913c54ccbecf.bindPopup(popup_84f710caa5bc739188a898edb0e2a333)
+        ;
+
+        
+    
+    
+            var circle_marker_66e2b47789f9d985a96699dd5567d3fa = L.circleMarker(
+                [10.023753245582023, -84.66102382929755],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF1493", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 2}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_350f86ff76532c63b5f23762f2ae1f30 = L.popup({"maxWidth": 400});
+
+        
+            
+                var html_a7abcdcdb887ab8c87cf621639a3fab8 = $(`<div id="html_a7abcdcdb887ab8c87cf621639a3fab8" style="width: 100.0%; height: 100.0%;">                 <b>HIGH CONFIDENCE Copper Quantity Estimate</b><br>                 <b>Confidence:</b> 90.1%<br>                 <b>Confidence Level:</b> Very High<br>                 <b>Estimated Grade:</b> 2.09% Cu<br>                 <b>Grade Category:</b> High Grade<br>                 <b>Resource Category:</b> Medium-Grade Reserve<br>                 <b>Estimated Tonnage:</b> 145,800 tonnes<br>                 <b>Copper Content:</b> 3040.77 tonnes<br>                 <b>Copper Content:</b> 3,040,772 kg<br>                 <b>Copper Content:</b> 6,703,747 lbs<br>                 <b>Pixel Area:</b> 0.090 hectares<br>                 <b>Mining Depth:</b> 60 m<br>                 <b>Lat:</b> 10.023753<br>                 <b>Lon:</b> -84.661024                 </div>`)[0];
+                popup_350f86ff76532c63b5f23762f2ae1f30.setContent(html_a7abcdcdb887ab8c87cf621639a3fab8);
+            
+        
+
+        circle_marker_66e2b47789f9d985a96699dd5567d3fa.bindPopup(popup_350f86ff76532c63b5f23762f2ae1f30)
+        ;
+
+        
+    
+    
+            var circle_marker_24c2aa5f3d135f9ae471b0d6d63376fa = L.circleMarker(
+                [10.023485990577417, -84.66157282200957],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF1493", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 2}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_800f98a9773d7e0a2f64253814a7c909 = L.popup({"maxWidth": 400});
+
+        
+            
+                var html_c6a88cdf9f100c85d8990cc4b3a01d06 = $(`<div id="html_c6a88cdf9f100c85d8990cc4b3a01d06" style="width: 100.0%; height: 100.0%;">                 <b>HIGH CONFIDENCE Copper Quantity Estimate</b><br>                 <b>Confidence:</b> 90.4%<br>                 <b>Confidence Level:</b> Very High<br>                 <b>Estimated Grade:</b> 2.70% Cu<br>                 <b>Grade Category:</b> High Grade<br>                 <b>Resource Category:</b> Medium-Grade Reserve<br>                 <b>Estimated Tonnage:</b> 145,800 tonnes<br>                 <b>Copper Content:</b> 3941.23 tonnes<br>                 <b>Copper Content:</b> 3,941,232 kg<br>                 <b>Copper Content:</b> 8,688,918 lbs<br>                 <b>Pixel Area:</b> 0.090 hectares<br>                 <b>Mining Depth:</b> 60 m<br>                 <b>Lat:</b> 10.023486<br>                 <b>Lon:</b> -84.661573                 </div>`)[0];
+                popup_800f98a9773d7e0a2f64253814a7c909.setContent(html_c6a88cdf9f100c85d8990cc4b3a01d06);
+            
+        
+
+        circle_marker_24c2aa5f3d135f9ae471b0d6d63376fa.bindPopup(popup_800f98a9773d7e0a2f64253814a7c909)
+        ;
+
+        
+    
+    
+            var circle_marker_27e1cd14e5e2cc239e68ffea90fbfe1e = L.circleMarker(
+                [10.023484063515335, -84.6612992979227],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF1493", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 2}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_4e61bd63786536d2d17a7cc6e0713e8d = L.popup({"maxWidth": 400});
+
+        
+            
+                var html_7107624d60cb559e1c7a255d83bac068 = $(`<div id="html_7107624d60cb559e1c7a255d83bac068" style="width: 100.0%; height: 100.0%;">                 <b>HIGH CONFIDENCE Copper Quantity Estimate</b><br>                 <b>Confidence:</b> 91.9%<br>                 <b>Confidence Level:</b> Very High<br>                 <b>Estimated Grade:</b> 2.64% Cu<br>                 <b>Grade Category:</b> High Grade<br>                 <b>Resource Category:</b> Medium-Grade Reserve<br>                 <b>Estimated Tonnage:</b> 145,800 tonnes<br>                 <b>Copper Content:</b> 3842.26 tonnes<br>                 <b>Copper Content:</b> 3,842,260 kg<br>                 <b>Copper Content:</b> 8,470,723 lbs<br>                 <b>Pixel Area:</b> 0.090 hectares<br>                 <b>Mining Depth:</b> 60 m<br>                 <b>Lat:</b> 10.023484<br>                 <b>Lon:</b> -84.661299                 </div>`)[0];
+                popup_4e61bd63786536d2d17a7cc6e0713e8d.setContent(html_7107624d60cb559e1c7a255d83bac068);
+            
+        
+
+        circle_marker_27e1cd14e5e2cc239e68ffea90fbfe1e.bindPopup(popup_4e61bd63786536d2d17a7cc6e0713e8d)
+        ;
+
+        
+    
+    
+            var circle_marker_0025f000eccdaaf490f7d83855f06739 = L.circleMarker(
+                [10.023482136228353, -84.6610257738911],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF1493", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 2}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_b3a75f1582dcf52c714a648960fd22f3 = L.popup({"maxWidth": 400});
+
+        
+            
+                var html_40046fadd4c5dfdcd2e334bc25a90565 = $(`<div id="html_40046fadd4c5dfdcd2e334bc25a90565" style="width: 100.0%; height: 100.0%;">                 <b>HIGH CONFIDENCE Copper Quantity Estimate</b><br>                 <b>Confidence:</b> 94.1%<br>                 <b>Confidence Level:</b> Very High<br>                 <b>Estimated Grade:</b> 2.13% Cu<br>                 <b>Grade Category:</b> High Grade<br>                 <b>Resource Category:</b> Medium-Grade Reserve<br>                 <b>Estimated Tonnage:</b> 145,800 tonnes<br>                 <b>Copper Content:</b> 3111.94 tonnes<br>                 <b>Copper Content:</b> 3,111,937 kg<br>                 <b>Copper Content:</b> 6,860,638 lbs<br>                 <b>Pixel Area:</b> 0.090 hectares<br>                 <b>Mining Depth:</b> 60 m<br>                 <b>Lat:</b> 10.023482<br>                 <b>Lon:</b> -84.661026                 </div>`)[0];
+                popup_b3a75f1582dcf52c714a648960fd22f3.setContent(html_40046fadd4c5dfdcd2e334bc25a90565);
+            
+        
+
+        circle_marker_0025f000eccdaaf490f7d83855f06739.bindPopup(popup_b3a75f1582dcf52c714a648960fd22f3)
+        ;
+
+        
+    
+    
+            var circle_marker_6cf63656b98ec3ea805cbcbd7a28336c = L.circleMarker(
+                [10.023212954103705, -84.66130124223406],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF1493", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 2}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_1d10e305e9c1c3ba18b69c84203e607f = L.popup({"maxWidth": 400});
+
+        
+            
+                var html_d72e2cfdc7f31a1273f92c21754f0785 = $(`<div id="html_d72e2cfdc7f31a1273f92c21754f0785" style="width: 100.0%; height: 100.0%;">                 <b>HIGH CONFIDENCE Copper Quantity Estimate</b><br>                 <b>Confidence:</b> 91.5%<br>                 <b>Confidence Level:</b> Very High<br>                 <b>Estimated Grade:</b> 3.00% Cu<br>                 <b>Grade Category:</b> High Grade<br>                 <b>Resource Category:</b> Medium-Grade Reserve<br>                 <b>Estimated Tonnage:</b> 145,800 tonnes<br>                 <b>Copper Content:</b> 4375.36 tonnes<br>                 <b>Copper Content:</b> 4,375,360 kg<br>                 <b>Copper Content:</b> 9,646,007 lbs<br>                 <b>Pixel Area:</b> 0.090 hectares<br>                 <b>Mining Depth:</b> 60 m<br>                 <b>Lat:</b> 10.023213<br>                 <b>Lon:</b> -84.661301                 </div>`)[0];
+                popup_1d10e305e9c1c3ba18b69c84203e607f.setContent(html_d72e2cfdc7f31a1273f92c21754f0785);
+            
+        
+
+        circle_marker_6cf63656b98ec3ea805cbcbd7a28336c.bindPopup(popup_1d10e305e9c1c3ba18b69c84203e607f)
+        ;
+
+        
+    
+    
+            var circle_marker_e594e335a09c7f0053a4aac7cf7962c1 = L.circleMarker(
+                [10.023211026869884, -84.66102771842935],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF7F", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_821edb0885aa381d502f4770425b2736 = L.popup({"maxWidth": 400});
+
+        
+            
+                var html_f8b8e9b5e55b8f35d1f7c397137cb40e = $(`<div id="html_f8b8e9b5e55b8f35d1f7c397137cb40e" style="width: 100.0%; height: 100.0%;">                 <b>HIGH CONFIDENCE Copper Quantity Estimate</b><br>                 <b>Confidence:</b> 85.0%<br>                 <b>Confidence Level:</b> High<br>                 <b>Estimated Grade:</b> 1.92% Cu<br>                 <b>Grade Category:</b> Medium Grade<br>                 <b>Resource Category:</b> Low-Grade Reserve<br>                 <b>Estimated Tonnage:</b> 145,800 tonnes<br>                 <b>Copper Content:</b> 2805.55 tonnes<br>                 <b>Copper Content:</b> 2,805,551 kg<br>                 <b>Copper Content:</b> 6,185,174 lbs<br>                 <b>Pixel Area:</b> 0.090 hectares<br>                 <b>Mining Depth:</b> 60 m<br>                 <b>Lat:</b> 10.023211<br>                 <b>Lon:</b> -84.661028                 </div>`)[0];
+                popup_821edb0885aa381d502f4770425b2736.setContent(html_f8b8e9b5e55b8f35d1f7c397137cb40e);
+            
+        
+
+        circle_marker_e594e335a09c7f0053a4aac7cf7962c1.bindPopup(popup_821edb0885aa381d502f4770425b2736)
+        ;
+
+        
+    
+    
+            var circle_marker_66d9ac7e7a1f1e01c916baafcfe3502d = L.circleMarker(
+                [10.022517799338937, -84.63969695682135],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF1493", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 2}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_ee2f504e3bd401d9f519da035ed8fa23 = L.popup({"maxWidth": 400});
+
+        
+            
+                var html_41ada78ad4ec5f0913dcf903c2b2d535 = $(`<div id="html_41ada78ad4ec5f0913dcf903c2b2d535" style="width: 100.0%; height: 100.0%;">                 <b>HIGH CONFIDENCE Copper Quantity Estimate</b><br>                 <b>Confidence:</b> 100.0%<br>                 <b>Confidence Level:</b> Extremely High<br>                 <b>Estimated Grade:</b> 2.63% Cu<br>                 <b>Grade Category:</b> High Grade<br>                 <b>Resource Category:</b> High-Grade Reserve<br>                 <b>Estimated Tonnage:</b> 145,800 tonnes<br>                 <b>Copper Content:</b> 3827.51 tonnes<br>                 <b>Copper Content:</b> 3,827,506 kg<br>                 <b>Copper Content:</b> 8,438,196 lbs<br>                 <b>Pixel Area:</b> 0.090 hectares<br>                 <b>Mining Depth:</b> 60 m<br>                 <b>Lat:</b> 10.022518<br>                 <b>Lon:</b> -84.639697                 </div>`)[0];
+                popup_ee2f504e3bd401d9f519da035ed8fa23.setContent(html_41ada78ad4ec5f0913dcf903c2b2d535);
+            
+        
+
+        circle_marker_66d9ac7e7a1f1e01c916baafcfe3502d.bindPopup(popup_ee2f504e3bd401d9f519da035ed8fa23)
+        ;
+
+        
+    
+    
+            var circle_marker_45c81a5e71a13a409889b6b3cd0b6dc2 = L.circleMarker(
+                [10.022248638746348, -84.63997243768137],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF7F", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+        var popup_563c7ab4ee9d26cea936cef52fa924c3 = L.popup({"maxWidth": 400});
+
+        
+            
+                var html_7cbc03a026e5ec83fd7423738a8b6b78 = $(`<div id="html_7cbc03a026e5ec83fd7423738a8b6b78" style="width: 100.0%; height: 100.0%;">                 <b>HIGH CONFIDENCE Copper Quantity Estimate</b><br>                 <b>Confidence:</b> 89.0%<br>                 <b>Confidence Level:</b> High<br>                 <b>Estimated Grade:</b> 1.42% Cu<br>                 <b>Grade Category:</b> Medium Grade<br>                 <b>Resource Category:</b> Low-Grade Reserve<br>                 <b>Estimated Tonnage:</b> 145,800 tonnes<br>                 <b>Copper Content:</b> 2063.96 tonnes<br>                 <b>Copper Content:</b> 2,063,958 kg<br>                 <b>Copper Content:</b> 4,550,244 lbs<br>                 <b>Pixel Area:</b> 0.090 hectares<br>                 <b>Mining Depth:</b> 60 m<br>                 <b>Lat:</b> 10.022249<br>                 <b>Lon:</b> -84.639972                 </div>`)[0];
+                popup_563c7ab4ee9d26cea936cef52fa924c3.setContent(html_7cbc03a026e5ec83fd7423738a8b6b78);
+            
+        
+
+        circle_marker_45c81a5e71a13a409889b6b3cd0b6dc2.bindPopup(popup_563c7ab4ee9d26cea936cef52fa924c3)
+        ;
+
+        
+    
+    
+            var layer_control_bb43cf4b0a2644cd53df46a34b62bc0b = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_8491c6a676c40143ba946f10800e9382,
+                    "Satellite" : tile_layer_6fc45623b99ad2f6c9882d75d32f58e8,
+                },
+                overlays :  {
+                },
+            };
+            L.control.layers(
+                layer_control_bb43cf4b0a2644cd53df46a34b62bc0b.base_layers,
+                layer_control_bb43cf4b0a2644cd53df46a34b62bc0b.overlays,
+                {"autoZIndex": true, "collapsed": true, "position": "topright"}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+            tile_layer_6fc45623b99ad2f6c9882d75d32f58e8.remove();
+        
+    
+            L.control.fullscreen(
+                {"forceSeparateButton": false, "position": "topleft", "title": "Full Screen", "titleCancel": "Exit Full Screen"}
+            ).addTo(map_9f4528a7df08faab57165a5fb7dd3941);
+        
+    
+            var measure_control_1bb0e37cd83ffb916a89c707bd76a7a4 = new L.Control.Measure(
+                {"position": "topright", "primaryAreaUnit": "sqmeters", "primaryLengthUnit": "meters", "secondaryAreaUnit": "acres", "secondaryLengthUnit": "miles"});
+            map_9f4528a7df08faab57165a5fb7dd3941.addControl(measure_control_1bb0e37cd83ffb916a89c707bd76a7a4);
+
+        
+</script>
+</html>
